@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const mySecret = process.env['MONGO_URI'];
 const User = require('./models/user');
-
+const Exercise = require('./models/exercise');
 
 mongoose.connect(mySecret, { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -39,6 +39,12 @@ app.route('/api/users').get((req,res) =>{
     if (err) return console.error(err);
     return res.json(data)
   })
+})
+
+app.post('/api/users/:_id/exercises', (req, res) => {
+  const {_id: id} = req.params;
+
+
 })
 
 const listener = app.listen(process.env.PORT || 3000, () => {
