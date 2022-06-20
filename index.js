@@ -44,7 +44,8 @@ app
   });
 
 app.post('/api/users/:_id/exercises', (req, res) => {
-  let { ':_id': id, description, duration, date } = req.body;
+  const id = req.params._id
+  let { description, duration, date } = req.body;
   if (!date) {
     date = new Date().toDateString();
   } else{
