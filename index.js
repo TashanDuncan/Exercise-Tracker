@@ -7,7 +7,6 @@ const mongoose = require('mongoose');
 const mySecret = process.env['MONGO_URI'];
 const User = require('./models/user');
 
-
 mongoose.connect(mySecret, { useNewUrlParser: true, useUnifiedTopology: true });
 
 app.use(cors());
@@ -44,15 +43,13 @@ app
   });
 
 app.post('/api/users/:_id/exercises', (req, res) => {
-  const id = req.params._id
+  const id = req.params._id;
   let { description, duration, date } = req.body;
   if (!date) {
     date = new Date().toDateString();
-  } else{
-    date = new Date(date).toDateString()
+  } else {
+    date = new Date(date).toDateString();
   }
-
-
 
   User.findById(id, (err, user) => {
     if (err) return console.error(err);
@@ -77,6 +74,20 @@ app.post('/api/users/:_id/exercises', (req, res) => {
   });
 });
 
+app.get('/api/users/:_id/logs', (req, res) => {
+  const id = req.params._id;
+
+  User.findById(id, (err, user) => {
+    if (err) return console.error(err);
+    const count = user.log.length;
+    return res.json({
+      id_: user._id,
+      username: user.username,
+      count,
+      log: user.log
+    })
+  });
+});
 const listener = app.listen(process.env.PORT || 3000, () => {
   console.log('Your app is listening on port ' + listener.address().port);
 });
