@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const mySecret = process.env['MONGO_URI'];
 const User = require('./models/user');
-const Exercise = require('./models/exercise');
+
 
 mongoose.connect(mySecret, { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -45,11 +45,13 @@ app
 
 app.post('/api/users/:_id/exercises', (req, res) => {
   let { ':_id': id, description, duration, date } = req.body;
-
-  date = new Date(date).toDateString()
   if (!date) {
     date = new Date().toDateString();
+  } else{
+    date = new Date(date).toDateString()
   }
+
+
 
   User.findById(id, (err, user) => {
     if (err) return console.error(err);
