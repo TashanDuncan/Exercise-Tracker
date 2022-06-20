@@ -76,15 +76,28 @@ app.post('/api/users/:_id/exercises', (req, res) => {
 
 app.get('/api/users/:_id/logs', (req, res) => {
   const id = req.params._id;
+  let {from, to, limit} = req.query;
+
+  to = new Date(to).getTime();
+  from = new Date(from).getTime();
 
   User.findById(id, (err, user) => {
     if (err) return console.error(err);
-    const count = user.log.length;
+    let log = [...user.log]
+    if(from && to){
+      console.log(log)
+       log = log.filter(log =>{
+        const time = new Date(log.date).getTime();
+        return (from < time && time < to)})
+    }
+    if(limit){
+      log = log.slice(0,limit)
+    }
     return res.json({
       id_: user._id,
       username: user.username,
-      count,
-      log: user.log
+      count: log.length,
+      log
     })
   });
 });
