@@ -56,7 +56,7 @@ app.post('/api/users/:_id/exercises', (req, res) => {
 
     const exercise = {
       description,
-      duration,
+      duration: Number(duration),
       date,
     };
 
@@ -68,7 +68,7 @@ app.post('/api/users/:_id/exercises', (req, res) => {
         _id: data._id,
         date: exercise.date,
         duration: Number(exercise.duration),
-        description: exercise.description,
+        description: description,
       });
     });
   });
