@@ -70,7 +70,7 @@ app.post('/api/users/:_id/exercises', (req, res) => {
         username: data.username,
         _id: data._id,
         date: exercise.date,
-        duration: exercise.duration,
+        duration: Number(exercise.duration),
         description: exercise.description,
       });
     });
